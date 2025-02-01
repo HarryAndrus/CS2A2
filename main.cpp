@@ -13,7 +13,7 @@ void getMovieData(int arr[], int numStudents);
 int main() {
   int numStudents = 0;
   int *students = nullptr;
-  int count = 0;
+  int mode = 0;
 
   cout << "How many students were surveyed? " << endl;
   cin >> numStudents;
@@ -22,7 +22,8 @@ int main() {
 
   cout << "mean: " << mean(students, numStudents) << endl;
   cout << "median: " << median(students, numStudents) << endl;
-  cout << "mode: " << mode(students, numStudents) << endl;
+  const int mod = mode(students, numStudents);
+  mod != -1 ? cout << "mode: " << to_string(mod) : "The data set has no mode."  << endl;
 
   delete[] students;
   students = nullptr;
@@ -31,13 +32,11 @@ int main() {
 }
 
 int *makeArray(int size) {
-  int *ptr;
-
   if (size <= 0) {
     throw invalid_argument("Array size must be positive.");
   }
 
-  ptr = new int[size];
+  int* ptr = new int[size]();
 
   return ptr;
 }
@@ -76,7 +75,7 @@ int mean(const int *arr, int size) {
   return (mean / size);
 }
 
-int mode(int *arr, int size) {
+int mode(int const *arr, int const size) {
   int *freq = nullptr;
   int highest = 0;
   int elem = 0;
@@ -90,36 +89,34 @@ int mode(int *arr, int size) {
     *(freq + count) = 0;
   }
 
-  // Find Frequency of each element in arr.
+  // for each index in arr
   for (int count1 = 0; count1 < size; count1++) {
+    // for each index in arr, compare against all other indexes
     for (int count2 = 0; count2 < size; count2++) {
+      // if values are equal, increment the index using count1
       if (*(arr + count2) == *(arr + count1)) {
         (*(freq + count1))++;
       }
     }
   }
 
-  // Find the element with the highest frequency.
+  // highest = freq[0]
   highest = *freq;
-  elem = 0;
 
+  // for index in freq where freq[0] is initially compared
   for (count = 1; count < size; count++) {
+    // if value at index is greater than value at index 0
     if (*(freq + count) > highest) {
+      // highest frequency is the index with the greater value, index store in elem
       highest = *(freq + count);
       elem = count;
     }
   }
 
-  // If there is no mode no element has a frequency > 1, return -1.
-  // Otherwise return element with the highest frequency
-  if (highest == 1) {
-    result = -1;
-  } else {
-    result = *(arr + elem);
-  }
-
   delete[] freq;
   freq = nullptr;
 
-  return result;
+  // If there is no mode no element has a frequency > 1, return -1.
+  // Otherwise return element with the highest frequency
+  return (highest == 1) ? result = -1 : result = *(arr + elem);
 }
