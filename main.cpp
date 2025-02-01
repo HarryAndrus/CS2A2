@@ -55,8 +55,7 @@ float median(int *arr, int size) {
   sort(sortedPtr, sortedPtr + size);
 
   float median = (size % 2 == 0)
-                     ? static_cast<float>(*(sortedPtr + (size / 2 - 1)) +
-                                          *(sortedPtr + (size / 2)) / 2.0)
+                     ? static_cast<float>(*(sortedPtr + (size / 2 - 1)) + *(sortedPtr + (size / 2)) / 2.0f)
                      : static_cast<float>(*(sortedPtr + (size / 2)));
 
   delete[] sortedPtr;
